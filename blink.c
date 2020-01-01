@@ -14,7 +14,9 @@
 #define RCC_AHBENR_GPIOCEN (1 << 19)
  
 #define LEDU_PIN 6
-#define LEDU_PIN_MASK (1UL<<LEDU_PIN)
+#define LEDD_PIN 7
+#define LEDL_PIN 8
+#define LEDR_PIN 9
 
 static
 void delay(int nops)
@@ -49,15 +51,26 @@ void main(void)
     RCC_AHBENR |= RCC_AHBENR_GPIOCEN; // enable GPIOC clock
     GPIOC_OTYPER = 0; //LEDU_PIN_MASK; // push-pull
     set_gpioc_moder(LEDU_PIN, 0x1); // general purpose output
-	GPIOC_ODR = LEDU_PIN_MASK;
+    set_gpioc_moder(LEDL_PIN, 0x1); // general purpose output
+    set_gpioc_moder(LEDD_PIN, 0x1); // general purpose output
+    set_gpioc_moder(LEDR_PIN, 0x1); // general purpose output
+	GPIOC_ODR = 0;
 
 #if 1
     while(1)
     {
-        GPIOC_ODR |= LEDU_PIN_MASK; // output pin low -> LED ON
-        delay(100000);
-        GPIOC_ODR &= ~LEDU_PIN_MASK; // output pin high-z -> LED OFF
-        delay(100000);
+        GPIOC_ODR |= 1 << LEDU_PIN; // output pin low -> LED ON
+        delay(1000000);
+        GPIOC_ODR &= ~(1 << LEDU_PIN); // output pin high-z -> LED OFF
+        GPIOC_ODR |= 1 << LEDL_PIN; // output pin low -> LED ON
+        delay(1000000);
+        GPIOC_ODR &= ~(1 << LEDL_PIN); // output pin high-z -> LED OFF
+        GPIOC_ODR |= 1 << LEDD_PIN; // output pin low -> LED ON
+        delay(1000000);
+        GPIOC_ODR &= ~(1 << LEDD_PIN); // output pin high-z -> LED OFF
+        GPIOC_ODR |= 1 << LEDR_PIN; // output pin low -> LED ON
+        delay(1000000);
+        GPIOC_ODR &= ~(1 << LEDR_PIN); // output pin high-z -> LED OFF
     }
 #endif
 }
@@ -81,6 +94,8 @@ void _start(void)
 }
 #endif
 
+#if 0
 void __aeabi_unwind_cpp_pr0(void)
 {
 }
+#endif
