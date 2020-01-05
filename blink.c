@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
  
 #define REG32(addr) (*(volatile uint32_t *)(addr))
  
@@ -47,6 +48,7 @@ void set_gpioc_moder(int pin, int mode)
 void main(void)
 {
 	volatile uint32_t tmp;
+	char ahoj[128];
 
     RCC_AHBENR |= RCC_AHBENR_GPIOCEN; // enable GPIOC clock
     GPIOC_OTYPER = 0; //LEDU_PIN_MASK; // push-pull
@@ -55,6 +57,8 @@ void main(void)
     set_gpioc_moder(LEDD_PIN, 0x1); // general purpose output
     set_gpioc_moder(LEDR_PIN, 0x1); // general purpose output
 	GPIOC_ODR = 0;
+
+	sprintf(ahoj, "%d", GPIOC_ODR);
 
 #if 1
     while(1)

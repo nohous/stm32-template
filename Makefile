@@ -1,12 +1,12 @@
-TOOLCHAIN=/home/nohous/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-eabi/bin/arm-eabi-
-#TOOLCHAIN=/home/nohous/opt/gcc-arm-none-eabi-7-2018-q2-update/bin/arm-none-eabi-
+#TOOLCHAIN=/home/nohous/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-eabi/bin/arm-eabi-
+TOOLCHAIN=/home/nohous/opt/gcc-arm-none-eabi-7-2018-q2-update/bin/arm-none-eabi-
 CC=$(TOOLCHAIN)gcc
 LD=$(TOOLCHAIN)gcc
 AS=$(TOOLCHAIN)gcc
 OBJCOPY=$(TOOLCHAIN)objcopy
-CFLAGS=-mthumb -mcpu=cortex-m0 -Os 
+CFLAGS=-mthumb -mcpu=cortex-m0 -Os -specs=nano.specs -specs=nosys.specs 
 ASFLAGS=-mthumb -mcpu=cortex-m0 -x assembler 
-LDFLAGS=-Tstm32f072b.ld -nostartfiles -Wl,--build-id=none,-Map=blink.map
+LDFLAGS=-Tstm32f072b.ld  -nostartfiles -Wl,--build-id=none,-Map=blink.map
 
 all: blink
 	
