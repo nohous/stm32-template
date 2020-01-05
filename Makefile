@@ -6,7 +6,7 @@ AS=$(TOOLCHAIN)gcc
 OBJCOPY=$(TOOLCHAIN)objcopy
 CFLAGS=-mthumb -mcpu=cortex-m0 -Os -specs=nano.specs -specs=nosys.specs 
 ASFLAGS=-mthumb -mcpu=cortex-m0 -x assembler 
-LDFLAGS=-Tstm32f072b.ld  -nostartfiles -Wl,--build-id=none,-Map=blink.map
+LDFLAGS=-TSTM32F072RBTx_FLASH.ld -Wl,-Map=blink.map
 
 all: blink
 	
@@ -18,12 +18,10 @@ clean:
 
 blink.o: blink.c
 	$(CC) $(CFLAGS) -c $< -o $@
-startup_ARMCM0.o: startup_ARMCM0.S
+startup_stm32f072xb.o: startup_stm32f072xb.s
 	$(AS) $(ASFLAGS) -c $< -o $@
-	$(OBJCOPY) --remove-section '.ARM.*' $@
-	$(OBJCOPY) -N '__aeabi_unwind_cpp_pr0' $@
 
-blink: blink.o startup_ARMCM0.o
+blink: blink.o startup_stm32f072xb.o
 	$(LD) $(CFLAGS) $(LDFLAGS) $^ -o $@
 	$(OBJCOPY) $@ -S -O binary $@.bin
 
