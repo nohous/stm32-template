@@ -9,6 +9,9 @@ ASFLAGS=-mthumb -mcpu=cortex-m0 -x assembler
 LDFLAGS=-Tbsp/STM32F072RBTx_FLASH.ld -Wl,-Map=blink.map
 
 all: blink
+
+install:
+	openocd
 	
 clean:
 	-rm *.o
